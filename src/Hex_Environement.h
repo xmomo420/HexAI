@@ -12,7 +12,6 @@
 #include <map>
 #include <cmath>
 
-using namespace std;
 
 class Hex_Environement;
 
@@ -44,140 +43,6 @@ class Hex_Environement {
 
 
 public:
-
-
-
-  /***************************************************************************
-   ******************************** Ajouts ***********************************
-   ***************************************************************************/
-
-
-    /*static double uct(const Noeud &noeudFils) {
-        return (noeudFils.nombreVictoireSimulation / noeudFils.nombreSimulations)
-               + sqrt(2) * sqrt(log(noeudFils.parent->nombreSimulations)
-                                / noeudFils.nombreSimulations);
-    }
-
-    tuple<int, int> bestMove(const char &joueurIA) {
-        // TODO : Générer tous les noeuds fils qui ne sont pas explorés
-        genererPlateauxFils(joueurIA, noeudCourant);
-        bool tousExplore = false;
-        // TODO : Exlporer tous les noeuds fils à partir du noeud courant
-        //  Si nbSimulation == 0, le noeud n'a pas été exploré
-        while (!tousExplore) {
-            // TODO : Simulation, dès que la partie se termine
-            for (auto &noeud : noeudCourant->enfants)
-                if (noeud->nombreSimulations == 0) {
-                    noeudCourant->nombreSimulations++;
-                    simuler(noeud);
-                }
-            tousExplore = true;
-        }
-        // TODO : Choisir l'action qui mène au noeud fils qui maximise la fonction UCT
-        shared_ptr<Noeud> meilleurEnfant = meilleurNoeud(noeudCourant->enfants);
-        return determinerAction(noeudCourant->etatPlateau,meilleurEnfant->etatPlateau);
-    }
-
-    void simuler( shared_ptr<Noeud> &fils) {
-        simulation = true;
-        tuple<int, int> action = determinerAction(noeudCourant->etatPlateau,
-                                                  fils->etatPlateau);
-        playMove(std::get<0>(action), std::get<1>(action));
-        int compteur = 1;
-        while (!isGameOver()) {
-            playSimulation();
-            compteur++;
-        }
-        if (getWinner() == getIa())
-            noeudCourant->nombreVictoireSimulation++;
-        for (int i = 0; i < compteur; i++) // Retourner à l'état original
-            undo();
-        simulation = false;
-    }
-
-
-    static tuple<int, int> determinerAction(const vector<vector<char>> &original,
-                                            const vector<vector<char>> &resultat) {
-        tuple<int, int> coup = {-1, -1};
-        for (int i = 0; i < original.size(); ++i)
-            for (int j = 0; j < original[i].size(); ++j)
-                if (original[i][j] != resultat[i][j])
-                    coup = {i, j};
-        return coup;
-    }
-
-    static shared_ptr<Noeud> choisirAction(const vector<shared_ptr<Noeud>> &enfants) {
-        shared_ptr<Noeud> meilleur = nullptr;
-        double scoreUCT = -1.0;
-        for (auto &enfant : enfants)
-            if (uct(*enfant) > scoreUCT) {
-                meilleur = enfant;
-                scoreUCT = uct(*meilleur);
-            }
-        return meilleur;
-    }
-
-
-    static bool memePlateaux(const vector<vector<char>> &plateau,
-                             const vector<vector<char>> &autrePlateau) {
-        bool aucuneDifference = true;
-        for (int i = 0; aucuneDifference && i < plateau.size(); i++)
-            for (int j = 0; aucuneDifference && j < plateau[i].size(); j++)
-                aucuneDifference = plateau[i][j] == autrePlateau[i][j];
-        return aucuneDifference;
-    }
-
-    const vector<std::vector<char>> &getBoard() const;
-
-
-    static int ajouterNoeudsFils(const vector<vector<char>> &plateau, shared_ptr<Noeud> &noeudParent) {
-        bool noeudPresent = false;
-        int i;
-        for (i = 0; !noeudPresent && i < noeudParent->enfants.size(); ++i)
-            noeudPresent = memePlateaux(plateau,noeudParent->enfants[i]->etatPlateau);
-        if (!noeudPresent) {
-            noeudParent->enfants.push_back(make_shared<Noeud>(plateau,noeudParent));
-            return -1;
-        } else
-            return i;
-
-    }
-
-
-    static tuple<int, int> genererCoupValide(const vector<vector<char>> &plateau) {
-        tuple<int, int> coup = {-1, -1};
-        for (int i = 0; i < plateau.size(); ++i)
-            for (int j = 0; j < plateau[i].size(); ++j)
-                if (plateau[i][j] == '-')
-                    coup = {i, j};
-        return coup;
-    }
-
-
-    static int calculerNbCasesVides(const vector<vector<char>> &plateau) {
-        int compteur = 0;
-        for (auto &rangee : plateau)
-            for (char _case : rangee)
-                if (_case == '-')
-                    ++compteur;
-        return compteur;
-    }
-
-
-    void genererPlateauxFils(const char &joueurIA, shared_ptr<Noeud> &noeudParent) {
-        vector<vector<char>> nouveauPlateau = vector<vector<char>>(noeudParent->etatPlateau);
-        vector<vector<char>> plateauTmp = vector<vector<char>>(nouveauPlateau);
-        // Calculer le nombre de cases vides, boucler autant de fois que ce
-        // nombre, stocker les coups aléatoires dans plateauTmp
-        int nombreCasesVides = calculerNbCasesVides(plateauTmp);
-        for (int i = 0; i < nombreCasesVides; ++i) {
-            tuple<int, int> coup = genererCoupValide(plateauTmp);
-            nouveauPlateau[std::get<0>(coup)][std::get<1>(coup)] = joueurIA;
-            plateauTmp[std::get<0>(coup)][std::get<1>(coup)] = joueurIA;
-            ajouterNoeudsFils(nouveauPlateau, noeudParent);
-            nouveauPlateau = vector<vector<char>>(noeudParent->etatPlateau);
-        }
-    }*/
 
     unsigned int getSize() const {
         return board.size();
@@ -419,7 +284,7 @@ public:
         return _withGUI;
     }
 
-    const vector<std::vector<char>> & getBoard() const {
+    const std::vector<std::vector<char>> & getBoard() const {
         return board;
     }
 
